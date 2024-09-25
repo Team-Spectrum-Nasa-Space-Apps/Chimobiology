@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Earth and Titan Ocean Simulator</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                background-color: #f3f4f6;
+            }
+            .container {
+                max-width: 1000px;
+                width: 100%;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .simulator {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .ocean-view {
+                flex: 1 1 400px;
+                height: 400px;
+                position: relative;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .sky {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 25%;
+            }
+            .ocean {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 75%;
+            }
+            .element {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                cursor: pointer;
+                transition: transform 0.3s;
+            }
+            .element:hover {
+                transform: scale(1.2);
+            }
+            .sun {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                background-color: yellow;
+                border-radius: 50%;
+            }
+            .info-panel {
+                flex: 1 1 400px;
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .element-info {
+                display: none;
+                margin-top: 10px;
+            }
+            button {
+                display: block;
+                margin: 20px auto;
+                padding: 10px 20px;
+                background-color: #8b5cf6;
+                color: white;
+                border: none;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            button:hover {
+                background-color: #7c3aed;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 id="planetTitle">Earth Ocean Simulator</h1>
+            <div class="simulator">
+                <div class="ocean-view">
+                    <div id="sky" class="sky"></div>
+                    <div id="ocean" class="ocean"></div>
+                </div>
+                <div class="info-panel">
+                    <h2>Ocean Composition</h2>
+                    <p id="temperature"></p>
+                    <p id="pressure"></p>
+                    <h3>Elements:</h3>
+                    <div id="elementInfo"></div>
+                </div>
+            </div>
+            <button id="switchPlanet">Switch to Titan</button>
+        </div>
+
+        <script>
+            const planetData = {
+                earth: {
+                    name: "Earth",
+                    oceanColor: "#3b82f6",
+                    skyColor: "#7dd3fc",
+                    elements: [
+                        {
+                            name: "Water",
+                            formula: "H2O",
+                            color: "#bfdbfe",
+                            state: "Liquid",
+                            description:
+                                "The main component of Earth's oceans, essential for life as we know it.",
+                        },
+                        {
+                            name: "Sodium Chloride",
+                            formula: "NaCl",
+                            color: "#ffffff",
+                            state: "Dissolved solid",
+                            description:
+                                "Common salt, giving oceans their salinity. Important for marine life and ocean currents.",
+                        },
+                        {
+                            name: "Dissolved Oxygen",
+                            formula: "O2",
+                            color: "#fecaca",
+                            state: "Dissolved gas",
+                            description:
+                                "Crucial for aquatic life, produced by phytoplankton and absorbed from the atmosphere.",
+                        },
+                    ],
+                    temp: "0°C to ~30°C",
+                    pressure: "1 bar",
+                },
+                titan: {
+                    name: "Titan",
+                    oceanColor: "#92400e",
+                    skyColor: "#9a3412",
+                    elements: [
+                        {
+                            name: "Methane",
+                            formula: "CH4",
+                            color: "#4ade80",
+                            state: "Liquid",
+                            description:
+                                "Primary component of Titan's seas and lakes, exists as a liquid due to extreme cold.",
+                        },
+                        {
+                            name: "Ethane",
+                            formula: "C2H6",
+                            color: "#facc15",
+                            state: "Liquid",
+                            description:
+                                "Another hydrocarbon present in Titan's seas, often mixed with methane.",
+                        },
+                        {
+                            name: "Nitrogen",
+                            formula: "N2",
+                            color: "#bbf7d0",
+                            state: "Dissolved gas",
+                            description:
+                                "Dissolved in the hydrocarbon seas, originating from Titan's thick atmosphere.",
+                        },
+                    ],
+                    temp: "~-179°C",
+                    pressure: "1.5 bar",
+                },
+            };
+
+            let currentPlanet = "earth";
+
+            function updateSimulator() {
+                const planet = planetData[currentPlanet];
+                document.getElementById("planetTitle").textContent =
+                    `${planet.name} Ocean Simulator`;
+                document.getElementById("sky").style.backgroundColor =
+                    planet.skyColor;
+                document.getElementById("ocean").style.backgroundColor =
+                    planet.oceanColor;
+                document.getElementById("temperature").textContent =
+                    `Temperature: ${planet.temp}`;
+                document.getElementById("pressure").textContent =
+                    `Pressure: ${planet.pressure}`;
+
+                const oceanView = document.getElementById("ocean");
+                oceanView.innerHTML = "";
+                if (currentPlanet === "earth") {
+                    const sun = document.createElement("div");
+                    sun.className = "sun";
+                    oceanView.appendChild(sun);
+                }
+
+                planet.elements.forEach((element, index) => {
+                    const elementDiv = document.createElement("div");
+                    elementDiv.className = "element";
+                    elementDiv.style.backgroundColor = element.color;
+                    elementDiv.style.left = `${(index + 1) * 20}%`;
+                    elementDiv.style.bottom = `${Math.random() * 50}%`;
+                    elementDiv.onclick = () => showElementInfo(element);
+                    oceanView.appendChild(elementDiv);
+                });
+
+                document.getElementById("elementInfo").innerHTML =
+                    "<p>Click on an element in the ocean to see more information.</p>";
+            }
+
+            function showElementInfo(element) {
+                const infoHtml = `
+                <h3>${element.name}</h3>
+                <p><strong>Formula:</strong> ${element.formula}</p>
+                <p><strong>State:</strong> ${element.state}</p>
+                <p><strong>Description:</strong> ${element.description}</p>
+            `;
+                document.getElementById("elementInfo").innerHTML = infoHtml;
+            }
+
+            document
+                .getElementById("switchPlanet")
+                .addEventListener("click", () => {
+                    currentPlanet =
+                        currentPlanet === "earth" ? "titan" : "earth";
+                    updateSimulator();
+                    document.getElementById("switchPlanet").textContent =
+                        `Switch to ${currentPlanet === "earth" ? "Titan" : "Earth"}`;
+                });
+
+            updateSimulator();
+        </script>
+    </body>
+</html>
