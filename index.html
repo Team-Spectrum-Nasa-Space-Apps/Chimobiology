@@ -8,6 +8,7 @@
             body {
                 font-family: Arial, sans-serif;
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 min-height: 100vh;
@@ -16,7 +17,7 @@
             }
             .container {
                 max-width: 1000px;
-                width: 100%;
+                width: 90%; /* Adjust width for responsiveness */
                 padding: 20px;
             }
             h1 {
@@ -25,16 +26,18 @@
             }
             .planets {
                 display: flex;
+                flex-wrap: wrap; /* Allow wrapping for smaller screens */
                 justify-content: space-around;
                 margin-bottom: 20px;
             }
             .planet {
-                width: 200px;
-                height: 200px;
+                width: 150px; /* Adjust width for smaller screens */
+                height: 150px; /* Adjust height for smaller screens */
                 border-radius: 50%;
                 position: relative;
                 overflow: hidden;
                 cursor: pointer;
+                margin: 10px; /* Add margin for spacing */
             }
             .atmosphere {
                 position: absolute;
@@ -76,32 +79,14 @@
             .component:hover {
                 background-color: #d0d0d0;
             }
-            body {
-                font-family: Arial, sans-serif;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 100vh;
-                margin: 0;
-                background-color: #f3f4f6;
-            }
-            .container {
-                max-width: 1000px;
-                width: 100%;
-                padding: 20px;
-            }
-            h1 {
-                text-align: center;
-                margin-bottom: 20px;
-            }
             .simulator {
                 display: flex;
                 flex-wrap: wrap;
                 gap: 20px;
             }
             .ocean-view {
-                flex: 1 1 400px;
-                height: 400px;
+                flex: 1 1 300px; /* Allow flexible sizing */
+                height: 300px; /* Adjust height for responsiveness */
                 position: relative;
                 border-radius: 8px;
                 overflow: hidden;
@@ -141,7 +126,7 @@
                 border-radius: 50%;
             }
             .info-panel {
-                flex: 1 1 400px;
+                flex: 1 1 300px; /* Allow flexible sizing */
                 background-color: white;
                 padding: 20px;
                 border-radius: 8px;
@@ -164,6 +149,27 @@
             }
             button:hover {
                 background-color: #7c3aed;
+            }
+
+            /* Responsive Styles */
+            @media (max-width: 600px) {
+                .planet {
+                    width: 120px; /* Smaller width on mobile */
+                    height: 120px; /* Smaller height on mobile */
+                }
+                .ocean-view {
+                    height: 250px; /* Smaller height for ocean view on mobile */
+                }
+                .info-panel {
+                    flex: 1 1 100%; /* Full width on mobile */
+                }
+                .simulator {
+                    flex-direction: column; /* Stack simulator elements on mobile */
+                    align-items: center; /* Center elements */
+                }
+                button {
+                    width: 100%; /* Full width button on mobile */
+                }
             }
         </style>
     </head>
