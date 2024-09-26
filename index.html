@@ -3,8 +3,79 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Earth and Titan Ocean Simulator</title>
+        <title>Earth and Europa Atmosphere Comparison</title>
         <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                background-color: #f3f4f6;
+            }
+            .container {
+                max-width: 1000px;
+                width: 100%;
+                padding: 20px;
+            }
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .planets {
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 20px;
+            }
+            .planet {
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+            }
+            .atmosphere {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                opacity: 0.5;
+                animation: pulse 2s infinite alternate;
+            }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                100% {
+                    transform: scale(1.1);
+                }
+            }
+            .info {
+                margin-top: 20px;
+            }
+            .info-box {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                padding: 15px;
+                margin-top: 20px;
+                border-radius: 5px;
+                display: none;
+            }
+            .component {
+                display: inline-block;
+                margin: 5px;
+                padding: 5px 10px;
+                background-color: #e0e0e0;
+                border-radius: 15px;
+                cursor: pointer;
+            }
+            .component:hover {
+                background-color: #d0d0d0;
+            }
             body {
                 font-family: Arial, sans-serif;
                 display: flex;
@@ -94,81 +165,11 @@
             button:hover {
                 background-color: #7c3aed;
             }
-            .planets {
-                display: flex;
-                justify-content: space-around;
-                margin-bottom: 20px;
-            }
-            .planet {
-                width: 200px;
-                height: 200px;
-                border-radius: 50%;
-                position: relative;
-                overflow: hidden;
-                cursor: pointer;
-            }
-            .atmosphere {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                opacity: 0.5;
-                animation: pulse 2s infinite alternate;
-            }
-            @keyframes pulse {
-                0% {
-                    transform: scale(1);
-                }
-                100% {
-                    transform: scale(1.1);
-                }
-            }
-            .info {
-                margin-top: 20px;
-            }
-            .info-box {
-                background-color: #fff;
-                border: 1px solid #ddd;
-                padding: 15px;
-                margin-top: 20px;
-                border-radius: 5px;
-                display: none;
-            }
-            .component {
-                display: inline-block;
-                margin: 5px;
-                padding: 5px 10px;
-                background-color: #e0e0e0;
-                border-radius: 15px;
-                cursor: pointer;
-            }
-            .component:hover {
-                background-color: #d0d0d0;
-            }
         </style>
     </head>
     <body>
         <div class="container">
-            <h1 id="planetTitle">Earth Ocean Simulator</h1>
-            <div class="simulator">
-                <div class="ocean-view">
-                    <div id="sky" class="sky"></div>
-                    <div id="ocean" class="ocean"></div>
-                </div>
-                <div class="info-panel">
-                    <h2>Ocean Composition</h2>
-                    <p id="temperature"></p>
-                    <p id="pressure"></p>
-                    <h3>Elements:</h3>
-                    <div id="elementInfo"></div>
-                </div>
-            </div>
-            <button id="switchPlanet">Switch to Titan</button>
-        </div>
-        <div class="container">
-            <h1>Earth vs Titan Atmosphere Comparison</h1>
+            <h1>Earth vs Europa Atmosphere Comparison</h1>
             <div class="planets">
                 <div>
                     <h2>Earth</h2>
@@ -200,45 +201,45 @@
                         <div
                             class="component"
                             data-planet="earth"
-                            data-component="photosynthesis"
+                            data-component="water_vapor"
                         >
-                            Photosynthesis
+                            Water Vapor
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h2>Titan</h2>
+                    <h2>Europa</h2>
                     <div
                         class="planet"
-                        id="titan"
-                        style="background-color: #e59400"
+                        id="europa"
+                        style="background-color: #a1a1a1"
                     >
                         <div
                             class="atmosphere"
-                            style="background-color: rgba(255, 165, 0, 0.5)"
+                            style="background-color: rgba(255, 255, 255, 0.2)"
                         ></div>
                     </div>
-                    <div id="titan-components">
+                    <div id="europa-components">
                         <div
                             class="component"
-                            data-planet="titan"
-                            data-component="nitrogen"
+                            data-planet="europa"
+                            data-component="oxygen"
                         >
-                            Nitrogen
+                            Oxygen
                         </div>
                         <div
                             class="component"
-                            data-planet="titan"
-                            data-component="methane"
+                            data-planet="europa"
+                            data-component="water_vapor"
                         >
-                            Methane
+                            Water Vapor
                         </div>
                         <div
                             class="component"
-                            data-planet="titan"
-                            data-component="chemosynthesis"
+                            data-planet="europa"
+                            data-component="hydrogen"
                         >
-                            Chemosynthesis
+                            Hydrogen
                         </div>
                     </div>
                 </div>
@@ -249,8 +250,92 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+            <h1 id="planetTitle">Earth Ocean Simulator</h1>
+            <div class="simulator">
+                <div class="ocean-view">
+                    <div id="sky" class="sky"></div>
+                    <div id="ocean" class="ocean"></div>
+                </div>
+                <div class="info-panel">
+                    <h2>Ocean Composition</h2>
+                    <p id="temperature"></p>
+                    <p id="pressure"></p>
+                    <h3>Elements:</h3>
+                    <div id="elementInfo"></div>
+                </div>
+            </div>
+            <button id="switchPlanet">Switch to Europa</button>
+        </div>
 
         <script>
+            const infoBox = document.getElementById("info-box");
+            const planets = document.querySelectorAll(".planet");
+            const components = document.querySelectorAll(".component");
+
+            const planetInfo = {
+                earth: {
+                    name: "Earth",
+                    atmosphere:
+                        "Earth's atmosphere is a thick layer of gases surrounding the planet. It's composed primarily of nitrogen (78%) and oxygen (21%), with trace amounts of other gases.",
+                    pressure:
+                        "The surface pressure on Earth is 1 atmosphere (atm) or 101.325 kPa.",
+                    temperature:
+                        "Earth's surface temperature ranges from about -89°C to 57°C, with an average of around 15°C.",
+                    thickness:
+                        "The atmosphere extends about 100 km above the Earth's surface.",
+                    components: {
+                        nitrogen:
+                            "Nitrogen makes up about 78% of Earth's atmosphere. It's crucial for life but most organisms can't use it directly from the air.",
+                        oxygen: "Oxygen comprises about 21% of Earth's atmosphere. It's essential for most life forms and is produced by plants through photosynthesis.",
+                        water_vapor:
+                            "Water vapor in Earth's atmosphere plays a crucial role in weather patterns and the water cycle. It acts as a greenhouse gas and forms clouds, rain, and snow.",
+                    },
+                },
+                europa: {
+                    name: "Europa",
+                    atmosphere:
+                        "Europa has a very thin atmosphere, often referred to as an 'exosphere'. It's primarily composed of oxygen, with trace amounts of water vapor and hydrogen.",
+                    pressure:
+                        "The surface pressure on Europa is extremely low, close to a vacuum (about 10^-8 times Earth's surface pressure).",
+                    temperature:
+                        "Europa's surface temperature is extremely cold, averaging about -160°C at the equator and -220°C at the poles.",
+                    thickness:
+                        "Europa's atmosphere is extremely tenuous and doesn't have a clearly defined upper limit. It extends only a few hundred kilometers above the surface.",
+                    components: {
+                        oxygen: "Oxygen in Europa's thin atmosphere is thought to be produced by radiation from Jupiter breaking up water molecules on Europa's icy surface.",
+                        water_vapor:
+                            "Trace amounts of water vapor have been detected in Europa's atmosphere, likely originating from the icy surface or potential plumes from the subsurface ocean.",
+                        hydrogen:
+                            "Hydrogen has been detected in Europa's atmosphere, possibly a result of the dissociation of water molecules by Jupiter's intense radiation.",
+                    },
+                },
+            };
+
+            function showInfo(info) {
+                infoBox.innerHTML = info;
+                infoBox.style.display = "block";
+            }
+
+            planets.forEach((planet) => {
+                planet.addEventListener("click", () => {
+                    const planetData = planetInfo[planet.id];
+                    showInfo(`<h3>${planetData.name}</h3>
+                              <p>${planetData.atmosphere}</p>
+                              <p>Surface Pressure: ${planetData.pressure}</p>
+                              <p>Temperature: ${planetData.temperature}</p>
+                              <p>Atmospheric Thickness: ${planetData.thickness}</p>`);
+                });
+            });
+
+            components.forEach((component) => {
+                component.addEventListener("click", () => {
+                    const planet = component.dataset.planet;
+                    const componentName = component.dataset.component;
+                    showInfo(`<h3>${planetInfo[planet].name} - ${componentName}</h3>
+                              <p>${planetInfo[planet].components[componentName]}</p>`);
+                });
+            });
             const planetData = {
                 earth: {
                     name: "Earth",
@@ -283,40 +368,40 @@
                         },
                     ],
                     temp: "0°C to ~30°C",
-                    pressure: "1 bar",
+                    pressure: "1 bar at surface",
                 },
-                titan: {
-                    name: "Titan",
-                    oceanColor: "#92400e",
-                    skyColor: "#9a3412",
+                europa: {
+                    name: "Europa",
+                    oceanColor: "#1e3a8a",
+                    skyColor: "#000000",
                     elements: [
                         {
-                            name: "Methane",
-                            formula: "CH4",
-                            color: "#4ade80",
+                            name: "Water",
+                            formula: "H2O",
+                            color: "#bfdbfe",
                             state: "Liquid",
                             description:
-                                "Primary component of Titan's seas and lakes, exists as a liquid due to extreme cold.",
+                                "The primary component of Europa's subsurface ocean, existing in liquid state due to tidal heating.",
                         },
                         {
-                            name: "Ethane",
-                            formula: "C2H6",
-                            color: "#facc15",
-                            state: "Liquid",
+                            name: "Magnesium Sulfate",
+                            formula: "MgSO4",
+                            color: "#e5e7eb",
+                            state: "Dissolved solid",
                             description:
-                                "Another hydrocarbon present in Titan's seas, often mixed with methane.",
+                                "Likely present in Europa's ocean, potentially making it similar to Epsom salt solutions.",
                         },
                         {
-                            name: "Nitrogen",
-                            formula: "N2",
-                            color: "#bbf7d0",
+                            name: "Sulfur Dioxide",
+                            formula: "SO2",
+                            color: "#fde68a",
                             state: "Dissolved gas",
                             description:
-                                "Dissolved in the hydrocarbon seas, originating from Titan's thick atmosphere.",
+                                "Possibly present due to interactions between the ocean and rocky core.",
                         },
                     ],
-                    temp: "~-179°C",
-                    pressure: "1.5 bar",
+                    temp: "~-160°C at surface, warmer in subsurface ocean",
+                    pressure: "0.1 μPa at surface, extreme in subsurface ocean",
                 },
             };
 
@@ -359,11 +444,11 @@
 
             function showElementInfo(element) {
                 const infoHtml = `
-                <h3>${element.name}</h3>
-                <p><strong>Formula:</strong> ${element.formula}</p>
-                <p><strong>State:</strong> ${element.state}</p>
-                <p><strong>Description:</strong> ${element.description}</p>
-            `;
+                    <h3>${element.name}</h3>
+                    <p><strong>Formula:</strong> ${element.formula}</p>
+                    <p><strong>State:</strong> ${element.state}</p>
+                    <p><strong>Description:</strong> ${element.description}</p>
+                `;
                 document.getElementById("elementInfo").innerHTML = infoHtml;
             }
 
@@ -371,82 +456,13 @@
                 .getElementById("switchPlanet")
                 .addEventListener("click", () => {
                     currentPlanet =
-                        currentPlanet === "earth" ? "titan" : "earth";
+                        currentPlanet === "earth" ? "europa" : "earth";
                     updateSimulator();
                     document.getElementById("switchPlanet").textContent =
-                        `Switch to ${currentPlanet === "earth" ? "Titan" : "Earth"}`;
+                        `Switch to ${currentPlanet === "earth" ? "Europa" : "Earth"}`;
                 });
 
             updateSimulator();
-
-            const infoBox = document.getElementById("info-box");
-            const planets = document.querySelectorAll(".planet");
-            const components = document.querySelectorAll(".component");
-
-            const planetInfo = {
-                earth: {
-                    name: "Earth",
-                    atmosphere:
-                        "Earth's atmosphere is a thin layer of gases surrounding the planet. It's composed primarily of nitrogen (78%) and oxygen (21%), with trace amounts of other gases.",
-                    pressure:
-                        "The surface pressure on Earth is 1 atmosphere (atm) or 101.325 kPa.",
-                    temperature:
-                        "Earth's surface temperature ranges from about -89°C to 57°C, with an average of around 15°C.",
-                    thickness:
-                        "The atmosphere extends about 100 km above the Earth's surface.",
-                    components: {
-                        nitrogen:
-                            "Nitrogen makes up about 78% of Earth's atmosphere. It's crucial for life but most organisms can't use it directly from the air.",
-                        oxygen: "Oxygen comprises about 21% of Earth's atmosphere. It's essential for most life forms and is produced by plants through photosynthesis.",
-                        photosynthesis:
-                            "Photosynthesis is the process by which plants and other organisms use sunlight to convert water and carbon dioxide into oxygen and energy in the form of sugar. This process is crucial for maintaining Earth's oxygen-rich atmosphere and supporting complex life.",
-                    },
-                },
-                titan: {
-                    name: "Titan",
-                    atmosphere:
-                        "Titan's atmosphere is thick and hazy, composed mainly of nitrogen (95%) and methane (5%). It's the only moon known to have a dense atmosphere.",
-                    pressure:
-                        "The surface pressure on Titan is about 1.5 times that of Earth, or roughly 1.5 atmospheres.",
-                    temperature:
-                        "Titan's surface temperature is extremely cold, averaging about -179°C.",
-                    thickness:
-                        "Titan's atmosphere extends to about 1,000 km above its surface, much thicker than Earth's.",
-                    components: {
-                        nitrogen:
-                            "Nitrogen makes up about 95% of Titan's atmosphere, similar to Earth but in higher concentration.",
-                        methane:
-                            "Methane comprises about 5% of Titan's atmosphere. It plays a role similar to water on Earth, forming clouds and falling as rain.",
-                        chemosynthesis:
-                            "Chemosynthesis is a process where organisms produce energy and organic compounds from chemical reactions rather than sunlight. On Titan, potential chemosynthetic life could use the abundant hydrocarbons (like methane and ethane) as an energy source. Hypothetical organisms might consume hydrogen and acetylene, producing methane as a byproduct. This process could potentially support simple life forms in Titan's hydrocarbon lakes, although no evidence of life has been found yet.",
-                    },
-                },
-            };
-
-            function showInfo(info) {
-                infoBox.innerHTML = info;
-                infoBox.style.display = "block";
-            }
-
-            planets.forEach((planet) => {
-                planet.addEventListener("click", () => {
-                    const planetData = planetInfo[planet.id];
-                    showInfo(`<h3>${planetData.name}</h3>
-                              <p>${planetData.atmosphere}</p>
-                              <p>Surface Pressure: ${planetData.pressure}</p>
-                              <p>Temperature: ${planetData.temperature}</p>
-                              <p>Atmospheric Thickness: ${planetData.thickness}</p>`);
-                });
-            });
-
-            components.forEach((component) => {
-                component.addEventListener("click", () => {
-                    const planet = component.dataset.planet;
-                    const componentName = component.dataset.component;
-                    showInfo(`<h3>${planetInfo[planet].name} - ${componentName}</h3>
-                              <p>${planetInfo[planet].components[componentName]}</p>`);
-                });
-            });
         </script>
     </body>
 </html>
