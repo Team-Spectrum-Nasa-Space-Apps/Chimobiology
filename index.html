@@ -94,6 +94,59 @@
             button:hover {
                 background-color: #7c3aed;
             }
+            .planets {
+                display: flex;
+                justify-content: space-around;
+                margin-bottom: 20px;
+            }
+            .planet {
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                position: relative;
+                overflow: hidden;
+                cursor: pointer;
+            }
+            .atmosphere {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                opacity: 0.5;
+                animation: pulse 2s infinite alternate;
+            }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                100% {
+                    transform: scale(1.1);
+                }
+            }
+            .info {
+                margin-top: 20px;
+            }
+            .info-box {
+                background-color: #fff;
+                border: 1px solid #ddd;
+                padding: 15px;
+                margin-top: 20px;
+                border-radius: 5px;
+                display: none;
+            }
+            .component {
+                display: inline-block;
+                margin: 5px;
+                padding: 5px 10px;
+                background-color: #e0e0e0;
+                border-radius: 15px;
+                cursor: pointer;
+            }
+            .component:hover {
+                background-color: #d0d0d0;
+            }
         </style>
     </head>
     <body>
@@ -113,6 +166,88 @@
                 </div>
             </div>
             <button id="switchPlanet">Switch to Titan</button>
+        </div>
+        <div class="container">
+            <h1>Earth vs Titan Atmosphere Comparison</h1>
+            <div class="planets">
+                <div>
+                    <h2>Earth</h2>
+                    <div
+                        class="planet"
+                        id="earth"
+                        style="background-color: #2b82c9"
+                    >
+                        <div
+                            class="atmosphere"
+                            style="background-color: rgba(173, 216, 230, 0.5)"
+                        ></div>
+                    </div>
+                    <div id="earth-components">
+                        <div
+                            class="component"
+                            data-planet="earth"
+                            data-component="nitrogen"
+                        >
+                            Nitrogen
+                        </div>
+                        <div
+                            class="component"
+                            data-planet="earth"
+                            data-component="oxygen"
+                        >
+                            Oxygen
+                        </div>
+                        <div
+                            class="component"
+                            data-planet="earth"
+                            data-component="photosynthesis"
+                        >
+                            Photosynthesis
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2>Titan</h2>
+                    <div
+                        class="planet"
+                        id="titan"
+                        style="background-color: #e59400"
+                    >
+                        <div
+                            class="atmosphere"
+                            style="background-color: rgba(255, 165, 0, 0.5)"
+                        ></div>
+                    </div>
+                    <div id="titan-components">
+                        <div
+                            class="component"
+                            data-planet="titan"
+                            data-component="nitrogen"
+                        >
+                            Nitrogen
+                        </div>
+                        <div
+                            class="component"
+                            data-planet="titan"
+                            data-component="methane"
+                        >
+                            Methane
+                        </div>
+                        <div
+                            class="component"
+                            data-planet="titan"
+                            data-component="chemosynthesis"
+                        >
+                            Chemosynthesis
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info">
+                <div class="info-box" id="info-box">
+                    Click on a planet or component to learn more!
+                </div>
+            </div>
         </div>
 
         <script>
@@ -243,6 +378,75 @@
                 });
 
             updateSimulator();
+
+            const infoBox = document.getElementById("info-box");
+            const planets = document.querySelectorAll(".planet");
+            const components = document.querySelectorAll(".component");
+
+            const planetInfo = {
+                earth: {
+                    name: "Earth",
+                    atmosphere:
+                        "Earth's atmosphere is a thin layer of gases surrounding the planet. It's composed primarily of nitrogen (78%) and oxygen (21%), with trace amounts of other gases.",
+                    pressure:
+                        "The surface pressure on Earth is 1 atmosphere (atm) or 101.325 kPa.",
+                    temperature:
+                        "Earth's surface temperature ranges from about -89°C to 57°C, with an average of around 15°C.",
+                    thickness:
+                        "The atmosphere extends about 100 km above the Earth's surface.",
+                    components: {
+                        nitrogen:
+                            "Nitrogen makes up about 78% of Earth's atmosphere. It's crucial for life but most organisms can't use it directly from the air.",
+                        oxygen: "Oxygen comprises about 21% of Earth's atmosphere. It's essential for most life forms and is produced by plants through photosynthesis.",
+                        photosynthesis:
+                            "Photosynthesis is the process by which plants and other organisms use sunlight to convert water and carbon dioxide into oxygen and energy in the form of sugar. This process is crucial for maintaining Earth's oxygen-rich atmosphere and supporting complex life.",
+                    },
+                },
+                titan: {
+                    name: "Titan",
+                    atmosphere:
+                        "Titan's atmosphere is thick and hazy, composed mainly of nitrogen (95%) and methane (5%). It's the only moon known to have a dense atmosphere.",
+                    pressure:
+                        "The surface pressure on Titan is about 1.5 times that of Earth, or roughly 1.5 atmospheres.",
+                    temperature:
+                        "Titan's surface temperature is extremely cold, averaging about -179°C.",
+                    thickness:
+                        "Titan's atmosphere extends to about 1,000 km above its surface, much thicker than Earth's.",
+                    components: {
+                        nitrogen:
+                            "Nitrogen makes up about 95% of Titan's atmosphere, similar to Earth but in higher concentration.",
+                        methane:
+                            "Methane comprises about 5% of Titan's atmosphere. It plays a role similar to water on Earth, forming clouds and falling as rain.",
+                        chemosynthesis:
+                            "Chemosynthesis is a process where organisms produce energy and organic compounds from chemical reactions rather than sunlight. On Titan, potential chemosynthetic life could use the abundant hydrocarbons (like methane and ethane) as an energy source. Hypothetical organisms might consume hydrogen and acetylene, producing methane as a byproduct. This process could potentially support simple life forms in Titan's hydrocarbon lakes, although no evidence of life has been found yet.",
+                    },
+                },
+            };
+
+            function showInfo(info) {
+                infoBox.innerHTML = info;
+                infoBox.style.display = "block";
+            }
+
+            planets.forEach((planet) => {
+                planet.addEventListener("click", () => {
+                    const planetData = planetInfo[planet.id];
+                    showInfo(`<h3>${planetData.name}</h3>
+                              <p>${planetData.atmosphere}</p>
+                              <p>Surface Pressure: ${planetData.pressure}</p>
+                              <p>Temperature: ${planetData.temperature}</p>
+                              <p>Atmospheric Thickness: ${planetData.thickness}</p>`);
+                });
+            });
+
+            components.forEach((component) => {
+                component.addEventListener("click", () => {
+                    const planet = component.dataset.planet;
+                    const componentName = component.dataset.component;
+                    showInfo(`<h3>${planetInfo[planet].name} - ${componentName}</h3>
+                              <p>${planetInfo[planet].components[componentName]}</p>`);
+                });
+            });
         </script>
     </body>
 </html>
